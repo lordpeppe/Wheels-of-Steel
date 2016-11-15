@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2015
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wheels of Steel.CSharp", "Wheels of Steel.CSharp.csproj", "{7AA43569-3EE0-71E3-4646-93D6222954CD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wheels of Steel.CSharp.Editor", "Wheels of Steel.CSharp.Editor.csproj", "{52A2E7E2-44AF-F511-AE7F-9F3988E102E0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{7AA43569-3EE0-71E3-4646-93D6222954CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7AA43569-3EE0-71E3-4646-93D6222954CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7AA43569-3EE0-71E3-4646-93D6222954CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52A2E7E2-44AF-F511-AE7F-9F3988E102E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52A2E7E2-44AF-F511-AE7F-9F3988E102E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52A2E7E2-44AF-F511-AE7F-9F3988E102E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52A2E7E2-44AF-F511-AE7F-9F3988E102E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

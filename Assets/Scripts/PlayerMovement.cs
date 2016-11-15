@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -19,6 +20,15 @@ public class PlayerMovement : MonoBehaviour
     private float hullTurnSpeed;
     [SerializeField]
     private float brakeSpeed;
+    [SerializeField]
+    private float maxSpeed;
+    [SerializeField]
+    private Text txtVelocity;
+    [SerializeField]
+    private Animator animator;
+    [SerializeField]
+    private float turnSpeed;
+    
 
     // Use this for initialization
     void Start()
@@ -62,30 +72,38 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             moveLeft = true;
+            animator.SetBool("IsGoingLeft", true);
         }
 
         if (Input.GetKeyUp(KeyCode.LeftArrow))
         {
             moveLeft = false;
+            animator.SetBool("IsGoingLeft", false);
         }
 
         if (Input.GetKey(KeyCode.RightArrow))
         {
             moveRight = true;
+            animator.SetBool("IsGoingRight", true);
         }
 
         if (Input.GetKeyUp(KeyCode.RightArrow))
         {
             moveRight = false;
+            animator.SetBool("IsGoingRight", false);
         }
-        
+
+        txtVelocity.text = GetComponent<Rigidbody>().velocity.z.ToString();
     }
 
     void FixedUpdate()
     {
         if (moveForward && !brake)
         {
-            GetComponent<Rigidbody>().AddForce(new Vector3(0, 0, speed));
+            if (GetComponent<Rigidbody>().velocity.z < maxSpeed)
+            {
+                GetComponent<Rigidbody>().AddForce(new Vector3(0, 0, speed));
+            }
         }
 
         if (brake)
@@ -93,19 +111,25 @@ public class PlayerMovement : MonoBehaviour
             if (GetComponent<Rigidbody>().velocity.z > 0.05f)
                 GetComponent<Rigidbody>().AddForce(Vector3.back * brakeSpeed);
             else
-                GetComponent<Rigidbody>().velocity = Vector3.zero;
+                GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x, GetComponent<Rigidbody>().velocity.y,0);
         }
 
         if (moveLeft)
         {
-            GetComponent<Rigidbody>().AddForce(Vector3.left * hullTurnSpeed, ForceMode.Force);
+            //GetComponent<Rigidbody>().AddForce(Vector3.left * hullTurnSpeed, ForceMode.Acceleration);
+            GetComponent<Rigidbody>().velocity = new Vector3(-turnSpeed, GetComponent<Rigidbody>().velocity.y, GetComponent<Rigidbody>().velocity.z);
         }
 
-        if (moveRight)
+        else if (moveRight)
         {
-            GetComponent<Rigidbody>().AddForce(Vector3.right * hullTurnSpeed, ForceMode.Force);
+            //GetComponent<Rigidbody>().AddForce(Vector3.right * hullTurnSpeed, ForceMode.Acceleration);
+            GetComponent<Rigidbody>().velocity = new Vector3(turnSpeed, GetComponent<Rigidbody>().velocity.y, GetComponent<Rigidbody>().velocity.z);
         }
-        
+        else
+        {
+            GetComponent<Rigidbody>().velocity = new Vector3(0, GetComponent<Rigidbody>().velocity.y, GetComponent<Rigidbody>().velocity.z);
+        }
+
         grounded = Physics.CheckSphere(new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z), 0.1f, groundLayer);
 
         if (jump && grounded)

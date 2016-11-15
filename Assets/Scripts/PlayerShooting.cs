@@ -9,6 +9,7 @@ public class PlayerShooting : MonoBehaviour
     private GameObject projectile;
     [SerializeField]
     private float projectileSpeed;
+    
     // Use this for initialization
     void Start()
     {
