@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
     private bool grounded;
     private bool jump;
     [SerializeField]
-    private float speed;
+    public float speed;
     [SerializeField]
     private LayerMask groundLayer;
     [SerializeField]

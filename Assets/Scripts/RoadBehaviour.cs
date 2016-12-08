@@ -34,6 +34,7 @@ public class RoadBehaviour : MonoBehaviour
         if (other.gameObject.layer == 9) //layer 9 is the player layer
         {
             var temp = Instantiate(RoadPiece, new Vector3(Random.Range(-500f, 500f), Random.Range(-100f, 100f), Random.Range(transform.parent.localScale.z + transform.position.z, transform.parent.localScale.z + transform.position.z + 500f)), Quaternion.identity) as GameObject;
+            temp.GetComponentInChildren<RoadBehaviour>().RoadPiece = RoadPiece;
             temp.GetComponent<MoveAfterInstiate>().startMove(new Vector3(transform.position.x, transform.position.y, transform.position.z + transform.parent.localScale.z));
 
             //spawn obstacles
@@ -42,13 +43,15 @@ public class RoadBehaviour : MonoBehaviour
                 xPosition = temp.transform.position.x;
                 yPosition = temp.transform.position.y;
                 zPosition = temp.transform.position.z;
-                position = new Vector3(Random.Range(xPosition - temp.transform.localScale.x / 2, xPosition + temp.transform.localScale.x / 2),
-                    yPosition + 1.7f,
-                    Random.Range(zPosition - temp.transform.localScale.z / 2, zPosition + temp.transform.localScale.z / 2));
+
                 var obj = Obstacles[Random.Range(0, Obstacles.Count)] as GameObject;
 
+                position = new Vector3(Random.Range(xPosition - temp.transform.localScale.x / 2, xPosition + temp.transform.localScale.x / 2),
+                    yPosition + temp.transform.localScale.y / 2 + obj.GetComponentInChildren<Transform>().localScale.y / 2,
+                    Random.Range(zPosition - temp.transform.localScale.z / 2, zPosition + temp.transform.localScale.z / 2));
+
                 var temp1 = Instantiate(obj, position, Quaternion.identity) as GameObject;
-                //temp1.GetComponent<MoveAfterInstiate>().startMove(position);
+
                 temp1.transform.position = position;
                 if (temp != null)
                 {

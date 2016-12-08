@@ -7,8 +7,9 @@ public class PlayerShooting : MonoBehaviour
     private bool canShoot = true;
     [SerializeField]
     private GameObject projectile;
-    [SerializeField]
-    private float projectileSpeed;
+
+    //private ProjectileBehaviour projectileScript;
+ 
     
     // Use this for initialization
     void Start()
@@ -36,9 +37,11 @@ public class PlayerShooting : MonoBehaviour
     {
         if (shooting && canShoot)
         {
+            
             var temp = Instantiate(projectile, new Vector3(transform.position.x, transform.position.y, transform.position.z + 1.5f)
                 , projectile.transform.rotation) as GameObject;
-            temp.GetComponent<Rigidbody>().AddForce(Vector3.forward * (projectileSpeed + temp.GetComponent<Rigidbody>().velocity.z), ForceMode.VelocityChange);
+            var projectileScript = FindObjectOfType<ProjectileBehaviour>(); //get the script describing the behaviour of the projectile
+            temp.GetComponent<Rigidbody>().AddForce(Vector3.forward * (projectileScript.projectileSpeed + temp.GetComponent<Rigidbody>().velocity.z), ForceMode.VelocityChange);
             canShoot = false;
             StartCoroutine(instantiateDelay());
         }

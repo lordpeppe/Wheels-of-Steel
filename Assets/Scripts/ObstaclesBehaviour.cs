@@ -2,36 +2,82 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class ObstaclesBehaviour : MonoBehaviour {
+public class ObstaclesBehaviour : MonoBehaviour
+{
 
     [SerializeField]
-    private List<GameObject> Obstacles;
-
-    private Vector3 position;
-    private float xPosition;
-    private float yPosition;
-    private float zPosition;
-    private GameObject prefab;
-
-
-	// Use this for initialization
-	void Start () {
-
-        xPosition = transform.position.x;
-        yPosition = transform.position.y;
-        zPosition = transform.position.z;
-        position = new Vector3(Random.Range(xPosition - transform.localScale.x / 2, xPosition + transform.localScale.x / 2), 
-            3, 
-            Random.Range(zPosition - transform.localScale.z / 2, zPosition + transform.localScale.z / 2));
-        prefab = Obstacles[Random.Range(0,Obstacles.Count)];
+    private float health;
+    [SerializeField]
+    private float forceResistance;
+    [SerializeField]
+    private float damage;
+    [SerializeField]
+    private bool destroyable;
 
 
-        Instantiate(prefab, position, Quaternion.identity);
+    // Use this for initialization
+    void Start()
+    {
 
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
+    void OnCollisionEnter(Collision other)
+    {
+        if (destroyable == true)
+        {
+            if (other.gameObject.layer == 9) // player layer
+            {
+
+                var playerScript = FindObjectOfType<PlayerMovement>();
+                if (playerScript != null)
+                {
+                    var playerVelocity = playerScript.gameObject.GetComponent<Rigidbody>().velocity.z;
+
+                    if (Mathf.Abs(playerVelocity) > forceResistance)
+                    {
+                        takeDamage(100); //gives the obstacle an amount of damage equals to it's health
+                    }
+
+                }
+
+            }
+            if (other.gameObject.tag.Equals("bullet")) //bullet
+            {
+                var projectileScript = FindObjectOfType<ProjectileBehaviour>(); // get projectile script
+                if (projectileScript != null)
+                {
+                    var incDamage = projectileScript.projectileDamage; //damage of projectile
+
+                    takeDamage(incDamage);
+
+                    Destroy(other.gameObject); //destroy projectile
+                }
+               
+            }
+        }
+
+
+    }
+    
+
+    void takeDamage(float damage)
+    {
+        health = health - damage;
+        checkHealth();
+    }
+    void checkHealth()
+    {
+        if (health <= 0)
+        {
+            Destroy(this.gameObject);
+        }
+    }
 }
