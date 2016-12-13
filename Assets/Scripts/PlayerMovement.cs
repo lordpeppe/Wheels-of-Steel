@@ -28,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
     private Animator animator;
     [SerializeField]
     private float turnSpeed;
+    public float velocity;
     
 
     // Use this for initialization
@@ -103,6 +104,7 @@ public class PlayerMovement : MonoBehaviour
             if (GetComponent<Rigidbody>().velocity.z < maxSpeed)
             {
                 GetComponent<Rigidbody>().AddForce(new Vector3(0, 0, speed));
+                velocity = GetComponent<Rigidbody>().velocity.z;
             }
         }
 

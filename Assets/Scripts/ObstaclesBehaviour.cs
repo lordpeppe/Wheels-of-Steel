@@ -39,7 +39,7 @@ public class ObstaclesBehaviour : MonoBehaviour
                 var playerScript = FindObjectOfType<PlayerMovement>();
                 if (playerScript != null)
                 {
-                    var playerVelocity = playerScript.gameObject.GetComponent<Rigidbody>().velocity.z;
+                    var playerVelocity = playerScript.velocity;
 
                     if (Mathf.Abs(playerVelocity) > forceResistance)
                     {
