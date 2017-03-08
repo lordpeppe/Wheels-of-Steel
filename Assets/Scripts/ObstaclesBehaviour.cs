@@ -36,9 +36,10 @@ public class ObstaclesBehaviour : MonoBehaviour
             if (other.gameObject.layer == 9) // player layer
             {
 
-                var playerScript = FindObjectOfType<PlayerMovement>();
+                var playerScript = FindObjectOfType<PlayerBehaviour>();
                 if (playerScript != null)
                 {
+                    playerScript.health = playerScript.health - damage;
                     var playerVelocity = playerScript.velocity;
 
                     if (Mathf.Abs(playerVelocity) > forceResistance)
@@ -48,6 +49,7 @@ public class ObstaclesBehaviour : MonoBehaviour
 
                 }
 
+               
             }
             if (other.gameObject.tag.Equals("bullet")) //bullet
             {

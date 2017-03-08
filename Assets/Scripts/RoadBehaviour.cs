@@ -31,7 +31,7 @@ public class RoadBehaviour : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 9) //layer 9 is the player layer
+        if (other.gameObject.tag.Equals("player"))
         {
             var temp = Instantiate(RoadPiece, new Vector3(Random.Range(-500f, 500f), Random.Range(-100f, 100f), Random.Range(transform.parent.localScale.z + transform.position.z, transform.parent.localScale.z + transform.position.z + 500f)), Quaternion.identity) as GameObject;
             temp.GetComponentInChildren<RoadBehaviour>().RoadPiece = RoadPiece;

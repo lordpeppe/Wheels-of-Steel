@@ -1,17 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class PlayerShooting : MonoBehaviour
 {
     private bool shooting;
     private bool canShoot = true;
+    private bool cooldown;
     [SerializeField]
     private GameObject projectile;
     [SerializeField]
-    private GameObject depletionBar;
-    private float barMaxWidth;
-    private float barMinWidth;
-    private RectTransform depletionMeter;
+    private Image depletionMeter;
 
     //private ProjectileBehaviour projectileScript;
 
@@ -19,9 +18,7 @@ public class PlayerShooting : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        depletionMeter = depletionBar.gameObject.transform.GetChild(0) as RectTransform;
-        barMaxWidth = depletionMeter.position.x;
-        barMinWidth = depletionMeter.position.x - depletionMeter.sizeDelta.x;
+        
     }
 
     // Update is called once per frame
@@ -29,12 +26,12 @@ public class PlayerShooting : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.LeftControl))
         {
+            if (canShoot)
             shooting = true;
         }
 
         if (Input.GetKeyUp(KeyCode.LeftControl))
         {
-            canShoot = false;
             shooting = false;
         }
 
@@ -42,27 +39,36 @@ public class PlayerShooting : MonoBehaviour
 
     void FixedUpdate()
     {
+        //if depletionMeter is empty run the cooldown logic
+        if (depletionMeter.fillAmount <= 0 && canShoot)
+        {
+            depletionMeter.fillAmount = 0;
+            canShoot = false;
+            cooldown = true;
+            StartCoroutine(depleted());
+        }
+
+        //if able to shoot run the shooting logic and slowly deplete depletionMeter
         if (shooting && canShoot)
         {
             instantiateProjectile();
             canShoot = false;
             StartCoroutine(instantiateDelay());
 
-            if (depletionMeter.position.x <= barMaxWidth && depletionMeter.position.x >= barMinWidth)
+            if (depletionMeter.fillAmount > 0)
             {
-                depletionMeter.position = new Vector3(depletionMeter.position.x - 5f, depletionMeter.position.y, depletionMeter.position.z);
-                //if (depletionMeter.position.x == barMinWidth)
-                //{
-                //    canShoot = false;
-                //    depleted();
-                //}
+                depletionMeter.fillAmount -= 0.1f;
+             
             }
         }
 
-        if (depletionMeter.position.x < barMaxWidth && !shooting)
+        //Refill depletionMeter if correct scenario
+        if (depletionMeter.fillAmount < 1 && !shooting && !cooldown)
         {
-            depletionMeter.position = new Vector3(depletionMeter.position.x + 0.5f, depletionMeter.position.y, depletionMeter.position.z);
+            depletionMeter.fillAmount += 0.02f;
         }
+
+     
     }
 
     void instantiateProjectile()
@@ -83,6 +89,8 @@ public class PlayerShooting : MonoBehaviour
     {
         yield return new WaitForSeconds(5f);
         canShoot = true;
+        cooldown = false;
+        depletionMeter.fillAmount += 0.0001f;
     }
 
 }
