@@ -53,6 +53,7 @@
      <Compile Include="Assets\Scripts\PlayerShooting.cs" />
      <Compile Include="Assets\Scripts\ProjectileBehaviour.cs" />
      <Compile Include="Assets\Scripts\RoadBehaviour.cs" />
+     <Compile Include="Assets\Scripts\ScoreManager.cs" />
      <None Include="Assets\RAIN\Editor\Shaders\AspectSphereShader.shader" />
      <None Include="Assets\RAIN\Editor\Shaders\VisualSensorLineShader.shader" />
      <None Include="Assets\RAIN\Editor\Shaders\NavMeshContourShader.shader" />

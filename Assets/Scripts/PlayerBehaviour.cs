@@ -101,7 +101,12 @@ public class PlayerBehaviour : MonoBehaviour
             animator.SetBool("IsGoingRight", false);
         }
 
+        if (health >= 0 ) {
         lblHealth.text = "Health" + "   " + health.ToString();
+
+        }
+
+
         lblVelocity.text = "Velocity" + "   " + GetComponent<Rigidbody>().velocity.z.ToString("0");
 
         checkHealth();
@@ -161,7 +166,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (health <= 0)
         {
-            Destroy(this.gameObject);
+           enabled = false; //disables the script
         }
     }
 

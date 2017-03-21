@@ -12,6 +12,8 @@ public class PlayerShooting : MonoBehaviour
     [SerializeField]
     private Image depletionMeter;
 
+
+
     //private ProjectileBehaviour projectileScript;
 
 
